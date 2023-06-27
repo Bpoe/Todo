@@ -1,16 +1,18 @@
 ﻿namespace Todo.Api.Models;
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 public class TodoTask
 {
-    public int Id { get; set; }
+    [JsonIgnore]
+    public string List { get; set; }
 
+    public string Id { get; set; }
+
+    [Required(AllowEmptyStrings = false)]
     public string Title { get; set; }
 
-    [JsonProperty("@odata.etag")]
     [JsonPropertyName("@odata.etag")]
     public string ETag { get; set; }
 

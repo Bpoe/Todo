@@ -19,6 +19,10 @@ public class TodoContext : DbContext
     {
         modelBuilder
             .Entity<TodoTask>()
+            .HasKey(t => new { t.List, t.Id });
+
+        modelBuilder
+            .Entity<TodoTask>()
             .Property(e => e.Recurrence)
             .HasConversion(
                 v => JsonConvert.SerializeObject(v),

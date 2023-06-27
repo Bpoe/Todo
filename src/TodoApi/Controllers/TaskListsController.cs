@@ -7,11 +7,11 @@ using TodoApi.Infrastructure;
 
 [Route("me/todo/lists")]
 [ApiController]
-public class TodoListsController : ControllerBase
+public class TaskListsController : ControllerBase
 {
     private readonly TodoContext context;
 
-    public TodoListsController(TodoContext context)
+    public TaskListsController(TodoContext context)
     {
         this.context = context ?? throw new ArgumentNullException(nameof(context));
     }
@@ -20,7 +20,7 @@ public class TodoListsController : ControllerBase
     public async Task<IResult> Get()
         => Results.Ok(new ValueResult<TodoTaskList>(await this.context.TaskLists.ToListAsync()));
 
-    [HttpGet("{id}", Name = "Get")]
+    [HttpGet("{id}", Name = "GetTaskList")]
     public async Task<IResult> Get(string id)
     {
         var taskList = await this.context.TaskLists.FindAsync(id);
@@ -59,7 +59,7 @@ public class TodoListsController : ControllerBase
         _ = this.context.TaskLists.Add(taskList);
         _ = await this.context.SaveChangesAsync();
 
-        return Results.CreatedAtRoute("Get", new { id = taskList.Id }, taskList);
+        return Results.CreatedAtRoute("GetTaskList", new { id = taskList.Id }, taskList);
     }
 
     [HttpPatch("{id}")]
@@ -97,4 +97,3 @@ public class TodoListsController : ControllerBase
         return Results.NoContent();
     }
 }
-
